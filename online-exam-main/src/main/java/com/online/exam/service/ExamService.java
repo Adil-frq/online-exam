@@ -35,17 +35,18 @@ public class ExamService {
         Option option = examRequest.getOption();
         Answer answer = examRequest.getAnswer();
         Category category = examRequest.getCategory();
-        Category savedCategory = null;
+       // Category savedCategory = null;
 
-        Category categoryId = categoryRepository.findByCategoryAndSubcategory(category.getCategory(), category.getSubcategory());
+        Category savedCategory = categoryRepository.findByCategoryAndSubcategory(category.getCategory(), category.getSubcategory());
 
-        if(categoryId == null) {
+        if(savedCategory == null) {
             savedCategory = categoryRepository.save(category);
         }
         if(savedCategory != null){
             category.setCategoryId(savedCategory.getCategoryId());
         }
-        question.setCategory(categoryId);
+        //question.setCategory(categoryId);
+       question.setCategory(savedCategory);
         Question savedQuestion = questionRepository.save(question);
         option.setOptionId(savedQuestion.getQuestionId());
         option.setQuestionId(savedQuestion);
