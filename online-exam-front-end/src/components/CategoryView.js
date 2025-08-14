@@ -13,27 +13,27 @@ function CategoryDropdown() {
   const categories = [
     {
       name: "Physics",
-      color: "#d32f2f",
+      color: "#ef5350",
       subcategories: ["Mechanics", "Optics", "Thermodynamics"]
     },
     {
       name: "Chemistry",
-      color: "#388e3c",
+      color: "#66bb6a",
       subcategories: ["Organic", "Inorganic", "Physical"]
     },
     {
       name: "Biology",
-      color: "#1976d2",
+      color: "#42a5f5",
       subcategories: ["Botany", "Zoology", "Genetics"]
     },
     {
       name: "Math",
-      color: "#f57c00",
+      color: "#ffa726",
       subcategories: ["Algebra", "Geometry", "Calculus"]
     },
     {
       name: "STET",
-      color: "#7b1fa2",
+      color: "#ab47bc",
       subcategories: [
         {
           name: "Year",
@@ -84,7 +84,13 @@ function CategoryDropdown() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{
+      backgroundColor: "#121212",
+      color: "#ffffff",
+      padding: "20px",
+      minHeight: "100vh",
+      fontFamily: "Arial, sans-serif"
+    }}>
       <h2>📂 Choose a Category</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" }}>
         {categories.map((cat) => (
@@ -93,12 +99,12 @@ function CategoryDropdown() {
               onClick={() => handleCategoryClick(cat.name)}
               style={{
                 padding: "15px",
-                background: "#f0f0f0",
+                background: "#1e1e1e",
                 borderRadius: "8px",
                 cursor: "pointer",
                 fontWeight: "bold",
                 color: cat.color,
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
+                boxShadow: "0 2px 5px rgba(0,0,0,0.2)"
               }}
             >
               {cat.name}
@@ -113,11 +119,11 @@ function CategoryDropdown() {
                         onClick={() => handleSubcategoryClick(group.name)}
                         style={{
                           padding: "10px",
-                          background: "#e1bee7",
+                          background: "#3a3a3a",
                           borderRadius: "6px",
                           cursor: "pointer",
                           fontWeight: "bold",
-                          color: "#4a148c"
+                          color: "#ffffff"
                         }}
                       >
                         {group.name}
@@ -130,10 +136,10 @@ function CategoryDropdown() {
                               onClick={() => fetchQuestions("STET", item)}
                               style={{
                                 padding: "8px",
-                                background: "#f3e5f5",
+                                background: "#2c2c2c",
                                 borderRadius: "4px",
                                 cursor: "pointer",
-                                color: "#6a1b9a"
+                                color: "#ffffff"
                               }}
                             >
                               {item}
@@ -150,10 +156,10 @@ function CategoryDropdown() {
                       onClick={() => fetchQuestions(cat.name, sub)}
                       style={{
                         padding: "10px",
-                        background: "#e0f2f1",
+                        background: "#2c2c2c",
                         borderRadius: "6px",
                         cursor: "pointer",
-                        color: cat.color
+                        color: "#ffffff"
                       }}
                     >
                       {sub}
@@ -166,7 +172,6 @@ function CategoryDropdown() {
         ))}
       </div>
 
-      {/* ✅ Online Quiz Logic */}
       {questions.length > 0 && !showResult && (
         <div style={{ marginTop: "30px" }}>
           <h3>📝 Question {currentQuestionIndex + 1} of {questions.length}</h3>
@@ -179,11 +184,11 @@ function CategoryDropdown() {
             const correctOption = questions[currentQuestionIndex].answer.correctOption;
             const isSubmitted = submittedAnswers[currentQuestionIndex];
 
-            let background = "#f0f0f0";
+            let background = "#2c2c2c";
             if (isSubmitted) {
-              if (userAnswer === optKey && optKey === correctOption) background = "#c8e6c9"; // green
-              else if (userAnswer === optKey && optKey !== correctOption) background = "#ffcdd2"; // red
-              else if (optKey === correctOption) background = "#c8e6c9"; // show correct
+              if (userAnswer === optKey && optKey === correctOption) background = "#388e3c"; // green
+              else if (userAnswer === optKey && optKey !== correctOption) background = "#d32f2f"; // red
+              else if (optKey === correctOption) background = "#388e3c";
             }
 
             return (
@@ -195,7 +200,8 @@ function CategoryDropdown() {
                   marginBottom: "8px",
                   background,
                   borderRadius: "6px",
-                  border: userAnswer === optKey ? "2px solid #1976d2" : "1px solid #ccc",
+                  border: userAnswer === optKey ? "2px solid #64b5f6" : "1px solid #555",
+                  color: "#ffffff",
                   cursor: isSubmitted ? "default" : "pointer"
                 }}
               >
@@ -237,7 +243,7 @@ function CategoryDropdown() {
               style={{
                 marginTop: "15px",
                 padding: "10px 20px",
-                background: "#1976d2",
+                background: "#1e88e5",
                 color: "#fff",
                 border: "none",
                 borderRadius: "5px",
@@ -256,7 +262,14 @@ function CategoryDropdown() {
             <button
               onClick={() => setCurrentQuestionIndex((prev) => Math.max(prev - 1, 0))}
               disabled={currentQuestionIndex === 0}
-              style={{ padding: "10px 15px", borderRadius: "5px", cursor: "pointer" }}
+              style={{
+                padding: "10px 15px",
+                borderRadius: "5px",
+                backgroundColor: "#424242",
+                color: "#ffffff",
+                border: "none",
+                cursor: "pointer"
+              }}
             >
               ⬅ Previous
             </button>
@@ -270,7 +283,14 @@ function CategoryDropdown() {
                 }
               }}
               disabled={!submittedAnswers[currentQuestionIndex]}
-              style={{ padding: "10px 15px", borderRadius: "5px", cursor: "pointer" }}
+              style={{
+                padding: "10px 15px",
+                borderRadius: "5px",
+                backgroundColor: "#424242",
+                color: "#ffffff",
+                border: "none",
+                cursor: "pointer"
+              }}
             >
               {currentQuestionIndex === questions.length - 1 ? "Finish" : "Next ➡"}
             </button>
@@ -295,7 +315,7 @@ function CategoryDropdown() {
             style={{
               marginTop: "20px",
               padding: "10px 20px",
-              background: "#388e3c",
+              background: "#43a047",
               color: "#fff",
               border: "none",
               borderRadius: "5px",
