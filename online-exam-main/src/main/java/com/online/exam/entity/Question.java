@@ -9,7 +9,7 @@ public class Question {
     private String question;
 
     @OneToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "categoryId")
     private Category category;
 
     public int getQuestionId() {

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,10 +35,17 @@ public class ExamService {
         Option option = examRequest.getOption();
         Answer answer = examRequest.getAnswer();
         Category category = examRequest.getCategory();
+        Category savedCategory = null;
 
-        Category savedCategory = categoryRepository.save(category);
+        Category categoryId = categoryRepository.findByCategoryAndSubcategory(category.getCategory(), category.getSubcategory());
 
-        question.setCategory(category);
+        if(categoryId == null) {
+            savedCategory = categoryRepository.save(category);
+        }
+        if(savedCategory != null){
+            category.setCategoryId(savedCategory.getCategoryId());
+        }
+        question.setCategory(categoryId);
         Question savedQuestion = questionRepository.save(question);
         option.setOptionId(savedQuestion.getQuestionId());
         option.setQuestionId(savedQuestion);
@@ -55,12 +63,13 @@ public class ExamService {
         return questions.stream().map(question -> {
             Option option = optionRepository.findByQuestionId(question.getQuestionId());
             Answer answer = answerRepository.findByOptionId(option.getOptionId());
+            Optional<Category> category = categoryRepository.findById(question.getCategory().getCategoryId());
 
             ExamResponse response = new ExamResponse();
             response.setQuestion(question);
             response.setOption(option);
             response.setAnswer(answer);
-
+            response.setCategory(category.get());
             return response;
         }).collect(Collectors.toList());
     }

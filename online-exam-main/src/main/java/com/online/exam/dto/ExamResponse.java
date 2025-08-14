@@ -1,6 +1,7 @@
 package com.online.exam.dto;
 
 import com.online.exam.entity.Answer;
+import com.online.exam.entity.Category;
 import com.online.exam.entity.Option;
 import com.online.exam.entity.Question;
 
@@ -9,6 +10,8 @@ public class ExamResponse {
     private Question question;
     private Option option;
     private Answer answer;
+
+    private Category category;
 
     public Question getQuestion() {
         return question;
@@ -32,5 +35,13 @@ public class ExamResponse {
 
     public void setAnswer(Answer answer) {
         this.answer = answer;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
