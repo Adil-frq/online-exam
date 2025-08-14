@@ -96,7 +96,27 @@ public class ExamService {
     }
 
     public List<ExamResponse> getQuestionByCategory(String category, String subcategory) {
-        return null;
+        Category byCategoryAndSubcategory = categoryRepository.findByCategoryAndSubcategory(category, subcategory);
+        List<ExamResponse> examResponseList = null;
+
+        if(byCategoryAndSubcategory != null) {
+            List<Question> questionsByCategory = questionRepository.findByCategoryId(byCategoryAndSubcategory.getCategoryId());
+            ExamResponse response = new ExamResponse();
+
+            if(questionsByCategory != null && questionsByCategory.size() > 0) {
+                examResponseList = questionsByCategory.stream()
+                        .map(question -> {
+                            Option option = optionRepository.findByQuestionId(question.getQuestionId());
+                            Answer answer = answerRepository.findByOptionId(option.getOptionId());
+                            response.setQuestion(question);
+                            response.setAnswer(answer);
+                            response.setOption(option);
+                            return response;
+                        }).collect(Collectors.toList());
+            }
+        }
+
+        return examResponseList;
     }
 }
 
